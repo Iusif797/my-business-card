@@ -1,38 +1,362 @@
-.App {
-  text-align: center;
-}
+/* src/App.css */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap");
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes subtleGlow {
+  0% {
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes neonPulse {
+  0% {
+    text-shadow: 0 0 7px var(--neon-text-color), 0 0 10px var(--neon-text-color),
+      0 0 21px var(--neon-text-color);
+  }
+  50% {
+    text-shadow: 0 0 10px var(--neon-text-color),
+      0 0 20px var(--neon-text-color), 0 0 30px var(--neon-text-color),
+      0 0 40px var(--neon-text-color);
+  }
+  100% {
+    text-shadow: 0 0 7px var(--neon-text-color), 0 0 10px var(--neon-text-color),
+      0 0 21px var(--neon-text-color);
+  }
+}
+
+:root {
+  /* Светлая тема (по умолчанию) */
+  --primary-color: #ffffff;
+  --text-color: #333333;
+  --accent-color: #4b6cb7;
+  --secondary-color: #dddddd;
+  --hover-color: #4b6cb7;
+  --footer-color: #dddddd;
+  --background-color: #f0f4f8;
+  --card-background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+  --card-text-color: #ffffff;
+  --card-secondary-color: #cccccc;
+  --border-color: #ffffff;
+  --neon-color: #4fc3dc;
+  --neon-text-color: #4fc3dc;
+  --neon-shadow: 0 0 10px rgba(79, 195, 220, 0.8),
+    0 0 20px rgba(79, 195, 220, 0.5), 0 0 40px rgba(79, 195, 220, 0.3);
+  --neon-box-shadow: 0 0 5px rgba(79, 195, 220, 0.5),
+    0 0 10px rgba(79, 195, 220, 0.3);
+}
+
+/* Темная тема */
+.dark-mode {
+  --background-color: #121212;
+  --card-background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+  --card-text-color: #ffffff;
+  --card-secondary-color: #aaaaaa;
+  --accent-color: #6a85b6;
+  --hover-color: #7a97c9;
+  --border-color: #dddddd;
+  --neon-color: #ff00ff;
+  --neon-text-color: #ff73fd;
+  --neon-shadow: 0 0 10px rgba(255, 0, 255, 0.8),
+    0 0 20px rgba(255, 0, 255, 0.5), 0 0 40px rgba(255, 0, 255, 0.3);
+  --neon-box-shadow: 0 0 5px rgba(255, 0, 255, 0.5),
+    0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+/* Светлая тема */
+.light-mode {
+  --background-color: #f0f4f8;
+  --card-background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+  --card-text-color: #ffffff;
+  --card-secondary-color: #dddddd;
+  --accent-color: #4b6cb7;
+  --hover-color: #3a5a9e;
+  --border-color: #ffffff;
+  --neon-color: #4fc3dc;
+  --neon-text-color: #4fc3dc;
+  --neon-shadow: 0 0 10px rgba(79, 195, 220, 0.8),
+    0 0 20px rgba(79, 195, 220, 0.5), 0 0 40px rgba(79, 195, 220, 0.3);
+  --neon-box-shadow: 0 0 5px rgba(79, 195, 220, 0.5),
+    0 0 10px rgba(79, 195, 220, 0.3);
+}
+
+.App {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  transition: background-color 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.animated-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    -45deg,
+    rgba(75, 108, 183, 0.2),
+    rgba(24, 40, 72, 0.2),
+    rgba(79, 195, 220, 0.2),
+    rgba(45, 136, 196, 0.2)
+  );
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  z-index: 0;
+}
+
+.dark-mode .animated-gradient {
+  background: linear-gradient(
+    -45deg,
+    rgba(44, 62, 80, 0.2),
+    rgba(26, 26, 46, 0.2),
+    rgba(255, 0, 255, 0.2),
+    rgba(148, 0, 211, 0.2)
+  );
+  background-size: 400% 400%;
+}
+
+.business-card {
+  background: var(--card-background);
+  padding: 30px 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  color: var(--card-text-color);
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease;
+  z-index: 2;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+/* Анимация появления визитки */
+.business-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Кнопка переключения темы */
+.theme-toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: transparent;
+  border: none;
+  color: var(--card-text-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.theme-toggle:hover {
+  transform: rotate(30deg);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Логотип */
+.logo-container {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  z-index: 1;
+}
+
+/* Удаляем световой эффект вокруг логотипа */
+.logo-container::before {
+  display: none;
+}
+
+.logo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--border-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.name {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.2em;
+  margin-bottom: 5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--card-text-color);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: subtleGlow 3s infinite alternate;
+  position: relative;
+  z-index: 3;
+}
+
+.neon-text {
+  color: var(--neon-text-color);
+  text-shadow: var(--neon-shadow);
+  animation: neonPulse 2s infinite alternate;
+}
+
+.title {
+  font-family: "Raleway", sans-serif;
+  font-size: 1.4em;
+  margin-bottom: 20px;
+  color: var(--card-secondary-color);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.description {
+  font-family: "Inter", sans-serif;
+  font-size: 1em;
+  margin-bottom: 20px;
+  color: var(--card-secondary-color);
+  line-height: 1.5;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--card-text-color);
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
+  padding: 14px 24px;
+  border: 2px solid var(--border-color);
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+.neon-button {
+  border: 2px solid var(--neon-color);
+  box-shadow: var(--neon-box-shadow);
+  text-shadow: 0 0 5px var(--neon-text-color);
+}
+
+.neon-button:hover {
+  color: var(--card-text-color);
+  background-color: var(--neon-color);
+  border-color: var(--neon-color);
+  box-shadow: 0 0 10px var(--neon-color), 0 0 20px var(--neon-color),
+    0 0 30px var(--neon-color);
+  text-shadow: 0 0 10px var(--neon-text-color);
+  transform: translateY(-3px);
+}
+
+.contact-link:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Эффект волны при нажатии на кнопку */
+.contact-link:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Микроанимация для иконок */
+.contact-link .icon {
+  transition: transform 0.3s ease;
+}
+
+.contact-link:hover .icon {
+  transform: rotate(10deg) scale(1.2);
+}
+
+.footer {
+  font-family: "Inter", sans-serif;
+  font-size: 0.7em;
+  color: var(--card-secondary-color);
+  margin-top: 15px;
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 480px) {
+  .business-card {
+    max-width: 90%;
+    padding: 20px 15px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .name {
+    font-size: 1.8em;
+  }
+
+  .title {
+    font-size: 1.2em;
   }
 }
